@@ -196,14 +196,20 @@ export abstract class KatmerProvider<
       await this.destroy()
       this.connected = false
     } catch (err) {
-      console.warn(`[Provider:${this.options.name}] destroy() failed:`, err)
+      this.logger.warn({
+        msg: `[Provider:${this.options.name}] destroy() failed`,
+        error: err
+      })
     }
 
     try {
       await this.cleanup()
       this.initialized = false
     } catch (err) {
-      console.warn(`[Provider:${this.options.name}] cleanup() failed:`, err)
+      this.logger.warn({
+        msg: `[Provider:${this.options.name}] cleanup() failed`,
+        error: err
+      })
     }
     this.logger.trace(`Disconnected from provider: ${this.options.name}`)
   }

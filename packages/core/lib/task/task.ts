@@ -213,12 +213,13 @@ export class KatmerTask extends TypedEventEmitter<{
       },
       logger: logger,
       progress(data) {
-        console.info("Progress:", data)
+        logger.info({ msg: "Progress", data })
       },
       provider,
       variables: merge(context, this.variables || {}),
       warn(opts: { message: string } | string): void {
-        console.warn("WARN", opts)
+        const message = typeof opts === "string" ? opts : opts.message
+        logger.warn({ msg: message })
       }
     }
   }

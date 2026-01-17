@@ -90,8 +90,8 @@ export class KatmerCore {
   async check() {
     await using targetResolver = new KatmerTargetResolver(this)
     const providers = targetResolver.resolveTargets("all")
-    console.log(targetResolver.hosts)
-    console.log(this.config, providers)
+    this.logger.debug({ hosts: targetResolver.hosts })
+    this.logger.debug({ config: this.config, providers })
     for (const runFor of providers) {
       const provider = await targetResolver.resolveProvider(runFor)
       await provider.ensureReady()

@@ -52,7 +52,7 @@ export const UntilControl = {
               }
             }
           } else {
-            ctx.log("debug", "Condiiton failed")
+            ctx.log("debug", "Condition failed")
             shouldRun = false
           }
         } while (shouldRun)
