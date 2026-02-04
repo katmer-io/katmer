@@ -23,7 +23,8 @@ const messages = ref<
 >([])
 
 const removeOne = (notificationId: string | number) => {
-  messages.value = messages.value?.filter(({ id }) => id !== notificationId) || []
+  messages.value =
+    messages.value?.filter(({ id }) => id !== notificationId) || []
 }
 
 const removeAll = () => (messages.value = [])

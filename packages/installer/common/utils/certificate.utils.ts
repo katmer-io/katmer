@@ -2,7 +2,9 @@ export function removeHeaders(cert?: string | Buffer | null) {
   if (!cert) {
     return
   }
-  const pem = /-----BEGIN((\s?\w*)*)-----([^-]*)-----END((\s?\w*)*)-----/g.exec(cert.toString())
+  const pem = /-----BEGIN((\s?\w*)*)-----([^-]*)-----END((\s?\w*)*)-----/g.exec(
+    cert.toString()
+  )
   if (pem && pem.length > 0) {
     return pem[3].replace(/[\n|\r\n]/g, "")
   }
@@ -21,7 +23,8 @@ export function extractPemCertificates(str: string) {
     return []
   }
   // Regular expression to match PEM-encoded certificates with headers and footers
-  const pemRegex = /(-----BEGIN CERTIFICATE-----[\s\S]+?-----END CERTIFICATE-----)/g
+  const pemRegex =
+    /(-----BEGIN CERTIFICATE-----[\s\S]+?-----END CERTIFICATE-----)/g
 
   // Match all occurrences of the PEM blocks with headers and footers
   const pemCertificates = str.match(pemRegex)
@@ -34,7 +37,8 @@ export function extractPemPrivateKey(str: string) {
   if (!str) {
     return []
   }
-  const pemRegex = /(-----BEGIN (PRIVATE KEY|RSA PRIVATE KEY)-----[\s\S]+?-----END \2-----)/g
+  const pemRegex =
+    /(-----BEGIN (PRIVATE KEY|RSA PRIVATE KEY)-----[\s\S]+?-----END \2-----)/g
 
   // Match all occurrences of the PEM blocks with headers and footers
   const pemCertificates = str.match(pemRegex)

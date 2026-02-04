@@ -23,7 +23,7 @@ const tabList = computed(() => {
           :checked="selectedIndex === index"
           @click="selectedIndex = selectedIndex === index ? null : index"
         />
-        <Icon class="me-2" v-if="tab.icon" :class="tab.icon" />
+        <Icon v-if="tab.icon" class="me-2" :class="tab.icon" />
         {{ tab.title }}
       </label>
       <div
@@ -32,16 +32,16 @@ const tabList = computed(() => {
         <slot :name="tab.key" />
       </div>
       <div
-        class="divider divider-horizontal my-0 py-2 mx-0 w-0"
         v-if="selectedIndex === null && index < tabList.length - 1"
+        class="divider divider-horizontal my-0 py-2 mx-0 w-0"
       />
     </template>
     <Button
+      v-if="selectedIndex !== null"
       class="size-6 absolute end-2 top-2"
       icon="i-ph-x"
-      v-if="selectedIndex !== null"
       @click="selectedIndex = null"
-    ></Button>
+    />
   </div>
 </template>
 

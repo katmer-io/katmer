@@ -1,7 +1,11 @@
 import * as jsrs from "jsrsasign"
 import isEmail from "validator/lib/isEmail"
 import isFQDN from "validator/lib/isFQDN"
-import { extractPemCertificates, extractPemPrivateKey, removeHeaders } from "./utils/certificate.utils"
+import {
+  extractPemCertificates,
+  extractPemPrivateKey,
+  removeHeaders
+} from "./utils/certificate.utils"
 
 export const Validators = {
   async privateKey(
@@ -27,7 +31,10 @@ export const Validators = {
     try {
       key = jsrs.KEYUTIL.getKey(keyPem)
 
-      const certificates = await Validators.certificate(params.certificate, params)
+      const certificates = await Validators.certificate(
+        params.certificate,
+        params
+      )
 
       for (const { x509 } of certificates) {
         const pub = x509.getPublicKey() as any
@@ -52,7 +59,10 @@ export const Validators = {
     if (PEMs.length === 0) {
       throw "no valid certificates provided"
     }
-    const subjectsToCheck = (Array.isArray(params.domain) ? params.domain : [params.domain]).filter(Boolean)
+    const subjectsToCheck = (
+      Array.isArray(params.domain) ?
+        params.domain
+      : [params.domain]).filter(Boolean)
 
     let subjectFound = false
     try {
@@ -69,7 +79,9 @@ export const Validators = {
               .getSubject()
               .array.flat()
               .map((s) => s.value),
-            ...(x509.getExtSubjectAltName()?.array.flatMap(Object.values as any) || [])
+            ...(x509
+              .getExtSubjectAltName()
+              ?.array.flatMap(Object.values as any) || [])
           ])
 
           // do not keep checking if one of certificates passes subject check

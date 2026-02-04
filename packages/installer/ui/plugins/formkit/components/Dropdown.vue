@@ -165,8 +165,8 @@ watch(modelValue, () => close())
       :disabled="disabled"
     >
       <component
-        v-if="ctx.slots.activator"
         :is="ctx.slots.activator"
+        v-if="ctx.slots.activator"
         :disabled="disabled"
         :class="[sizeClass, variantClass]"
       />
@@ -191,8 +191,8 @@ watch(modelValue, () => close())
     </button>
 
     <ul
-      class="dropdown menu dropdown-bottom dropdown-end shadow text-base-content w-max max-h-72 overflow-auto rounded-box z-10 bg-base-100 p-2"
       :id="uid"
+      class="dropdown menu dropdown-bottom dropdown-end shadow text-base-content w-max max-h-72 overflow-auto rounded-box z-10 bg-base-100 p-2"
       :style="`position-anchor:--anchor-${uid}`"
       role="listbox"
       popover

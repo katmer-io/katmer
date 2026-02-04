@@ -2,12 +2,11 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "preserve",
-    "types": ["bun",  "vitest/importMeta", "vitest"],
+    "types": ["bun", "vitest/importMeta", "vitest"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
-  "include": ["scripts", "config"],
-
+  "include": ["scripts", "config"]
 }

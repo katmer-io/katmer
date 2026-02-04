@@ -26,7 +26,7 @@ export const BuildPayloadConfigSchema = Type.Object(
      * Destination path inside the installer virtual filesystem.
      * Example: "payload/myApp"
      */
-    destination: Type.Optional(Type.String()),
+    destination: Type.Optional(Type.String())
   },
   { additionalProperties: false }
 )
@@ -46,7 +46,7 @@ export const BuildConfigSchema = Type.Object(
      * Optional version the installer is being built for.
      * If omitted, use InstallerConfig.version.
      */
-    targetVersion: Type.Optional(Type.String()),
+    targetVersion: Type.Optional(Type.String())
   },
   { additionalProperties: false }
 )

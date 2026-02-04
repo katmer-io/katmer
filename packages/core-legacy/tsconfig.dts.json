@@ -6,14 +6,9 @@
     "declaration": true,
     "sourceMap": true,
     "declarationMap": true,
-    "types": [
-    ],
-    "lib": [
-      "es5"
-    ],
+    "types": [],
+    "lib": ["es5"],
     "outDir": "dist"
   },
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }

@@ -15,7 +15,13 @@ const Builds = {
       }
     }),
   release: async () => {
-    for (const target of ["linux-x64", "linux-arm64", "windows-x64", "darwin-arm64", "darwin-x64"]) {
+    for (const target of [
+      "linux-x64",
+      "linux-arm64",
+      "windows-x64",
+      "darwin-arm64",
+      "darwin-x64"
+    ]) {
       console.log(`Building for ${target}`)
       await Bun.$`bun build --compile --target bun-${target} ./server/dist/index.js --outfile ./releases/${releaseFileName(target)}`
     }

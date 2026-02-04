@@ -1,0 +1,10 @@
+targets:
+  debian_vm:
+    hosts:
+      deb:
+        connection: ssh
+        hostname: 192.168.71.128
+        username: ayz
+        password: "1234"
+    variables:
+      interactivePassword: "1234"

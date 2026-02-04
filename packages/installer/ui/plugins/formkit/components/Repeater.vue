@@ -22,8 +22,8 @@
               <button
                 type="button"
                 :class="[context.classes.editIcon, context.classes.button]"
-                @click="startEdit(index)"
                 aria-label="Edit"
+                @click="startEdit(index)"
               >
                 <FormKitIcon icon="edit" />
               </button>
@@ -32,8 +32,8 @@
               <button
                 type="button"
                 :class="[context.classes.removeIcon, context.classes.button]"
-                @click="removeItem(index)"
                 aria-label="Remove"
+                @click="removeItem(index)"
               >
                 <FormKitIcon icon="trash" />
               </button>
@@ -68,13 +68,13 @@
         </button>
         <FormKit
           :key="editorKey"
+          v-model="editingInitial"
           :items="items"
           :item-index="editingIndex"
           ignore
           :preserve="false"
           :parent="context.node"
           type="form"
-          v-model="editingInitial"
           :incomplete-message="false"
           :actions="false"
           @submit="handleEditorSubmit"

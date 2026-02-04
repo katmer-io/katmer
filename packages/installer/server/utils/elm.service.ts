@@ -55,17 +55,24 @@ export const ElmService = {
   async requestLicense(csrText: string) {
     const formdata = new FormData()
 
-    formdata.append("license", new File([csrText], "license.csr", { type: "text/plain" }), "license.csr")
+    formdata.append(
+      "license",
+      new File([csrText], "license.csr", { type: "text/plain" }),
+      "license.csr"
+    )
 
     try {
-      const rawResp = await fetch(`${CONFIG.licensing.server_url}/license/l-upload`, {
-        method: "POST",
-        headers: {
-          api_key: nodeCrypto.randomUUID()
-        },
-        body: formdata,
-        redirect: "follow"
-      })
+      const rawResp = await fetch(
+        `${CONFIG.licensing.server_url}/license/l-upload`,
+        {
+          method: "POST",
+          headers: {
+            api_key: nodeCrypto.randomUUID()
+          },
+          body: formdata,
+          redirect: "follow"
+        }
+      )
       return await rawResp.json()
     } catch (e) {
       console.error(e)
@@ -78,7 +85,9 @@ function removeHeaders(cert?: string | Buffer | null) {
   if (!cert) {
     return
   }
-  const pem = /-----BEGIN((\s?\w*)*)-----([^-]*)-----END((\s?\w*)*)-----/g.exec(cert.toString())
+  const pem = /-----BEGIN((\s?\w*)*)-----([^-]*)-----END((\s?\w*)*)-----/g.exec(
+    cert.toString()
+  )
   if (pem && pem.length > 0) {
     return pem[3].replace(/[\n|\r\n]/g, "")
   }

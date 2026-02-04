@@ -21,7 +21,7 @@ export const HookConfigSchema = Type.Object(
     kind: Type.Optional(HookKindSchema),
     when: Type.Optional(Type.String()),
     continueOnError: Type.Optional(Type.Boolean()),
-    timeoutSeconds: Type.Optional(Type.Number()),
+    timeoutSeconds: Type.Optional(Type.Number())
   },
   { additionalProperties: false }
 )
@@ -30,7 +30,7 @@ export type HookConfig = Static<typeof HookConfigSchema>
 export const StepHooksConfigSchema = Type.Object(
   {
     before: Type.Optional(Type.Array(HookConfigSchema)),
-    after: Type.Optional(Type.Array(HookConfigSchema)),
+    after: Type.Optional(Type.Array(HookConfigSchema))
   },
   { additionalProperties: false }
 )
@@ -39,7 +39,7 @@ export type StepHooksConfig = Static<typeof StepHooksConfigSchema>
 export const PhaseHooksConfigSchema = Type.Object(
   {
     before: Type.Optional(Type.Array(HookConfigSchema)),
-    after: Type.Optional(Type.Array(HookConfigSchema)),
+    after: Type.Optional(Type.Array(HookConfigSchema))
   },
   { additionalProperties: false }
 )
@@ -49,7 +49,7 @@ export const InstallerHooksConfigSchema = Type.Object(
   {
     build: Type.Optional(PhaseHooksConfigSchema),
     install: Type.Optional(PhaseHooksConfigSchema),
-    update: Type.Optional(PhaseHooksConfigSchema),
+    update: Type.Optional(PhaseHooksConfigSchema)
   },
   { additionalProperties: false }
 )

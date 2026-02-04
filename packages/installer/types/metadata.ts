@@ -24,11 +24,13 @@ export const MigrationStepDescriptorSchema = Type.Object(
     /**
      * Human-readable description that can be displayed in logs or UI.
      */
-    description: Type.Optional(Type.String()),
+    description: Type.Optional(Type.String())
   },
   { additionalProperties: false }
 )
-export type MigrationStepDescriptor = Static<typeof MigrationStepDescriptorSchema>
+export type MigrationStepDescriptor = Static<
+  typeof MigrationStepDescriptorSchema
+>
 
 // ---------- INSTALLATION RUNTIME ----------
 
@@ -40,7 +42,8 @@ export type MigrationStepDescriptor = Static<typeof MigrationStepDescriptorSchem
  * so this is modeled as a string with documentation of known values.
  */
 export const InstallerRuntimeKindSchema = Type.String({
-  description: 'Installer runtime kind. Known values: "katmer", "ansible", "terraform" (plus custom ids).',
+  description:
+    'Installer runtime kind. Known values: "katmer", "ansible", "terraform" (plus custom ids).'
 })
 export type InstallerRuntimeKind = Static<typeof InstallerRuntimeKindSchema>
 
@@ -64,7 +67,7 @@ export const InstallerRuntimeBaseSchema = Type.Object(
     /**
      * Arbitrary runtime-specific settings.
      */
-    options: Type.Optional(Type.Record(Type.String(), Type.Unknown())),
+    options: Type.Optional(Type.Record(Type.String(), Type.Unknown()))
   },
   { additionalProperties: true }
 )
@@ -83,14 +86,16 @@ export const KatmerInstallerRuntimeConfigSchema = Type.Intersect(
         /**
          * Optional identifier of the entry target or task defined in the Katmer configuration.
          */
-        entryTargetId: Type.Optional(Type.String()),
+        entryTargetId: Type.Optional(Type.String())
       },
       { additionalProperties: false }
-    ),
+    )
   ],
   { additionalProperties: false }
 )
-export type KatmerInstallerRuntimeConfig = Static<typeof KatmerInstallerRuntimeConfigSchema>
+export type KatmerInstallerRuntimeConfig = Static<
+  typeof KatmerInstallerRuntimeConfigSchema
+>
 
 export const AnsibleInstallerRuntimeConfigSchema = Type.Intersect(
   [
@@ -105,14 +110,16 @@ export const AnsibleInstallerRuntimeConfigSchema = Type.Intersect(
         /**
          * Optional relative path to an Ansible inventory file.
          */
-        inventoryPath: Type.Optional(Type.String()),
+        inventoryPath: Type.Optional(Type.String())
       },
       { additionalProperties: false }
-    ),
+    )
   ],
   { additionalProperties: false }
 )
-export type AnsibleInstallerRuntimeConfig = Static<typeof AnsibleInstallerRuntimeConfigSchema>
+export type AnsibleInstallerRuntimeConfig = Static<
+  typeof AnsibleInstallerRuntimeConfigSchema
+>
 
 export const TerraformInstallerRuntimeConfigSchema = Type.Intersect(
   [
@@ -123,14 +130,16 @@ export const TerraformInstallerRuntimeConfigSchema = Type.Intersect(
         /**
          * Relative path within the payload to the root Terraform module directory.
          */
-        rootModulePath: Type.String(),
+        rootModulePath: Type.String()
       },
       { additionalProperties: false }
-    ),
+    )
   ],
   { additionalProperties: false }
 )
-export type TerraformInstallerRuntimeConfig = Static<typeof TerraformInstallerRuntimeConfigSchema>
+export type TerraformInstallerRuntimeConfig = Static<
+  typeof TerraformInstallerRuntimeConfigSchema
+>
 
 export const CustomInstallerRuntimeConfigSchema = Type.Intersect(
   [InstallerRuntimeBaseSchema, Type.Record(Type.String(), Type.Unknown())],
@@ -145,7 +154,7 @@ export const InstallerRuntimeConfigSchema = Type.Union(
     KatmerInstallerRuntimeConfigSchema,
     AnsibleInstallerRuntimeConfigSchema,
     TerraformInstallerRuntimeConfigSchema,
-    CustomInstallerRuntimeConfigSchema,
+    CustomInstallerRuntimeConfigSchema
   ],
   { description: "Installer runtime configuration." }
 )
@@ -173,7 +182,7 @@ export const DependencyConstraintSchema = Type.Object(
     /**
      * Indicates whether the dependency is optional.
      */
-    optional: Type.Optional(Type.Boolean()),
+    optional: Type.Optional(Type.Boolean())
   },
   { additionalProperties: false }
 )
@@ -185,12 +194,13 @@ export const InstallerEntrypointSchema = Type.Object(
   {
     kind: Type.Optional(
       Type.String({
-        description: 'Known values: "shell", "bun", "node", "command" (plus custom ids).',
+        description:
+          'Known values: "shell", "bun", "node", "command" (plus custom ids).'
       })
     ),
     path: Type.String(),
     args: Type.Optional(Type.Array(Type.String())),
-    cwd: Type.Optional(Type.String()),
+    cwd: Type.Optional(Type.String())
   },
   { additionalProperties: false }
 )
@@ -215,7 +225,7 @@ export const InstallerMetadataSchema = Type.Object(
     runtime: Type.Optional(InstallerRuntimeConfigSchema),
     entrypoint: Type.Optional(InstallerEntrypointSchema),
     dependencies: Type.Optional(Type.Array(DependencyConstraintSchema)),
-    migrations: Type.Optional(Type.Array(MigrationStepDescriptorSchema)),
+    migrations: Type.Optional(Type.Array(MigrationStepDescriptorSchema))
   },
   { additionalProperties: Type.Unknown() }
 )

@@ -7,7 +7,9 @@ const props = defineProps({
 </script>
 
 <template>
-  <h3 class="mb-1 mt-2 inline-flex items-center justify-center text-md font-semibold">
+  <h3
+    class="mb-1 mt-2 inline-flex items-center justify-center text-md font-semibold"
+  >
     {{ title || context.title }}
   </h3>
   <hr class="mb-3 mt-0" />

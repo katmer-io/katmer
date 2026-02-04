@@ -12,23 +12,22 @@
   --color-primary-700: 153 62 0;
   --color-primary-800: 115 46 0;
   --color-primary-900: 77 31 0;
-
 }
 
 html {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          Helvetica,
-          Arial,
-          sans-serif,
-          "Apple Color Emoji",
-          "Segoe UI Emoji",
-          "Segoe UI Symbol";
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
   font-size: 16px;
   font-weight: 500;
   line-height: normal;
@@ -168,8 +167,12 @@ pre code {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .slide-up {

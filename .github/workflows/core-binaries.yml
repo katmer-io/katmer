@@ -1,0 +1,87 @@
+name: Core Binaries
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v0.0.6)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            packages/core -> target
+
+      - name: Resolve build metadata
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${{ github.event.release.tag_name }}"
+          if [ -z "${TAG}" ] || [ "${TAG}" = "null" ]; then
+            TAG="${{ inputs.tag }}"
+          fi
+          if [ -z "${TAG}" ] || [ "${TAG}" = "null" ]; then
+            echo "tag not provided" >&2
+            exit 1
+          fi
+          TARGET_TRIPLE="$(rustc -vV | sed -n 's/^host: //p')"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "triple=${TARGET_TRIPLE}" >> "$GITHUB_OUTPUT"
+
+      - name: Build katmer (release)
+        working-directory: packages/core
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo build --release --locked
+
+      - name: Package artifact (unix)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          BIN="packages/core/target/release/katmer"
+          chmod +x "$BIN"
+          OUT="dist/katmer-${{ steps.meta.outputs.tag }}-${{ runner.os }}-${{ steps.meta.outputs.triple }}.tar.gz"
+          tar -czf "$OUT" -C "$(dirname "$BIN")" katmer
+
+      - name: Package artifact (windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          $bin = "packages/core/target/release/katmer.exe"
+          $out = "dist/katmer-${{ steps.meta.outputs.tag }}-Windows-${{ steps.meta.outputs.triple }}.zip"
+          Compress-Archive -Path $bin -DestinationPath $out -Force
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

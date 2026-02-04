@@ -1,0 +1,17 @@
+tasks:
+  - name: "Say hello"
+    targets: ["deb"]
+    shell: "echo 'Hello from Katmer!'"
+  - name: "Check file"
+    targets: ["deb"]
+    shell: "ls -la"
+  - name: "Gather system facts"
+    targets: ["deb"]
+    gather_facts: {}
+  - name: "Verify persistent facts"
+    targets: ["deb"]
+    debug:
+      msg: "{{ katmer_facts | json_encode(pretty=true) | safe  }}"
+  - name: "install package"
+    targets: ["deb"]
+    package: bat

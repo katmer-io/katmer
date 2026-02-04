@@ -7,7 +7,8 @@ import { Type, type Static } from "typebox"
  * so this is modeled as a string with documentation of known values.
  */
 export const VersioningStrategyKindSchema = Type.String({
-  description: 'Versioning strategy kind. Known values: "semver", "numeric", "lexicographic", or a custom id.',
+  description:
+    'Versioning strategy kind. Known values: "semver", "numeric", "lexicographic", or a custom id.'
 })
 export type VersioningStrategyKind = Static<typeof VersioningStrategyKindSchema>
 
@@ -32,8 +33,10 @@ export const VersioningStrategyConfigSchema = Type.Object(
     /**
      * For custom strategies: an implementation id your runtime resolves.
      */
-    customComparatorId: Type.Optional(Type.String()),
+    customComparatorId: Type.Optional(Type.String())
   },
   { additionalProperties: false }
 )
-export type VersioningStrategyConfig = Static<typeof VersioningStrategyConfigSchema>
+export type VersioningStrategyConfig = Static<
+  typeof VersioningStrategyConfigSchema
+>

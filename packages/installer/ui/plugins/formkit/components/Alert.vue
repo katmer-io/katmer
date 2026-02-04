@@ -7,9 +7,9 @@
       :class="iconClass || context.iconClass"
     />
     <div
-      v-html="content || context.content"
       class="font-normal"
       :class="contentClass || context.contentClass"
+      v-html="content || context.content"
     />
   </div>
 </template>

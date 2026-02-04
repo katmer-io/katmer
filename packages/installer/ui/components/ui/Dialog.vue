@@ -11,20 +11,34 @@
     <div
       ref="dialogRef"
       class="relative bg-white shadow-xl rounded-lg flex flex-col"
-      :class="[maximized ? 'w-screen h-screen' : 'min-w-[400px] max-w-3xl', $attrs.class]"
-      @keydown.esc="onEsc"
+      :class="[
+        maximized ? 'w-screen h-screen' : 'min-w-[400px] max-w-3xl',
+        $attrs.class
+      ]"
       tabindex="-1"
+      @keydown.esc="onEsc"
     >
       <!-- Header -->
-      <div v-if="$slots.header" class="flex items-center justify-between border-b px-4 py-2">
+      <div
+        v-if="$slots.header"
+        class="flex items-center justify-between border-b px-4 py-2"
+      >
         <slot name="header" />
         <div class="flex gap-2 items-center">
-          <button v-if="maximizable" @click="toggleMaximize" class="p-1 hover:bg-gray-100 rounded">
-            <Icon class="i-ph-arrow-line-up-bold" v-if="!maximized"></Icon>
-            <Icon v-else class="i-ph-arrow-line-down-bold"></Icon>
+          <button
+            v-if="maximizable"
+            class="p-1 hover:bg-gray-100 rounded"
+            @click="toggleMaximize"
+          >
+            <Icon v-if="!maximized" class="i-ph-arrow-line-up-bold" />
+            <Icon v-else class="i-ph-arrow-line-down-bold" />
           </button>
-          <button v-if="closable" @click="close" class="p-1 hover:bg-gray-100 rounded">
-            <Icon class="i-ph-x-bold"></Icon>
+          <button
+            v-if="closable"
+            class="p-1 hover:bg-gray-100 rounded"
+            @click="close"
+          >
+            <Icon class="i-ph-x-bold" />
           </button>
         </div>
       </div>

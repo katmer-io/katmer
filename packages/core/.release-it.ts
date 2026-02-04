@@ -1,13 +1,13 @@
 import type { Config } from "release-it"
 import { resolve } from "node:path"
 
-const packagePath = resolve(process.cwd(), "packages/core")
+const packagePath = process.cwd()
 
 export default {
   git: {
     requireBranch: "main",
     tagName: "v${version}",
-    commitMessage: "chore(release): katmer v${version}",
+    commitMessage: "chore(release): core v${version}",
     addUntrackedFiles: false,
     commit: true,
     push: true,
@@ -24,8 +24,12 @@ export default {
 
   github: {
     release: true,
-    releaseName: "v${version}",
-    assets: ["dist/releases/*"]
+    releaseName: "katmer-core v${version}"
+  },
+
+  hooks: {
+    "after:bump": "node scripts/release-it/sync-versions.mjs",
+    "before:bump": "bun run build && bun run artifacts"
   },
 
   plugins: {
@@ -37,7 +41,7 @@ export default {
         path: [packagePath]
       },
       preset: "conventionalcommits",
-      infile: "CHANGELOG.md",
+      infile: resolve(packagePath, "CHANGELOG.md"),
       preMajor: true
     }
   }

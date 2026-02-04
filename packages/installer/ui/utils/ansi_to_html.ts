@@ -62,7 +62,12 @@ function getDefaultColors(): ColorMap {
   return colors
 }
 
-function setStyleColor(red: number, green: number, blue: number, colors: ColorMap) {
+function setStyleColor(
+  red: number,
+  green: number,
+  blue: number,
+  colors: ColorMap
+) {
   const c = 16 + red * 36 + green * 6 + blue
   const r = red > 0 ? red * 40 + 55 : 0
   const g = green > 0 ? green * 40 + 55 : 0
@@ -109,12 +114,21 @@ function handleRgb(stack: string[], data: string): string {
   const operation = +data.substr(0, 2)
 
   const color = data.substring(5).split(";")
-  const rgb = color.map((value) => ("0" + Number(value).toString(16)).substr(-2)).join("")
+  const rgb = color
+    .map((value) => ("0" + Number(value).toString(16)).substr(-2))
+    .join("")
 
-  return pushStyle(stack, (operation === 38 ? "color:#" : "background-color:#") + rgb)
+  return pushStyle(
+    stack,
+    (operation === 38 ? "color:#" : "background-color:#") + rgb
+  )
 }
 
-function handleDisplay(stack: string[], code: number | string, options: Required<FilterOptions>): string | undefined {
+function handleDisplay(
+  stack: string[],
+  code: number | string,
+  options: Required<FilterOptions>
+): string | undefined {
   const numCode = parseInt(String(code), 10)
 
   const codeMap: Record<number, () => string | undefined> = {
@@ -125,7 +139,11 @@ function handleDisplay(stack: string[], code: number | string, options: Required
     4: () => pushTag(stack, "u"),
     8: () => pushStyle(stack, "display:none"),
     9: () => pushTag(stack, "strike"),
-    22: () => pushStyle(stack, "font-weight:normal;text-decoration:none;font-style:normal"),
+    22: () =>
+      pushStyle(
+        stack,
+        "font-weight:normal;text-decoration:none;font-style:normal"
+      ),
     23: () => closeTag(stack, "i"),
     24: () => closeTag(stack, "u"),
     39: () => pushForegroundColor(stack, options.fg),
@@ -136,10 +154,14 @@ function handleDisplay(stack: string[], code: number | string, options: Required
   if (codeMap[numCode]) return codeMap[numCode]!()
 
   if (4 < numCode && numCode < 7) return pushTag(stack, "blink")
-  if (29 < numCode && numCode < 38) return pushForegroundColor(stack, options.colors[numCode - 30])
-  if (39 < numCode && numCode < 48) return pushBackgroundColor(stack, options.colors[numCode - 40])
-  if (89 < numCode && numCode < 98) return pushForegroundColor(stack, options.colors[8 + (numCode - 90)])
-  if (99 < numCode && numCode < 108) return pushBackgroundColor(stack, options.colors[8 + (numCode - 100)])
+  if (29 < numCode && numCode < 38)
+    return pushForegroundColor(stack, options.colors[numCode - 30])
+  if (39 < numCode && numCode < 48)
+    return pushBackgroundColor(stack, options.colors[numCode - 40])
+  if (89 < numCode && numCode < 98)
+    return pushForegroundColor(stack, options.colors[8 + (numCode - 90)])
+  if (99 < numCode && numCode < 108)
+    return pushBackgroundColor(stack, options.colors[8 + (numCode - 100)])
 
   return undefined
 }
@@ -160,7 +182,8 @@ function range(low: number, high: number): number[] {
 }
 
 function notCategory(category: string | null) {
-  return (e: TokenElement) => (category === null || e.category !== category) && category !== "all"
+  return (e: TokenElement) =>
+    (category === null || e.category !== category) && category !== "all"
 }
 
 function categoryForCode(code: number | string): string | null {
@@ -171,8 +194,10 @@ function categoryForCode(code: number | string): string | null {
   if (4 < num && num < 7) return "blink"
   if (num === 8) return "hide"
   if (num === 9) return "strike"
-  if ((29 < num && num < 38) || num === 39 || (89 < num && num < 98)) return "foreground-color"
-  if ((39 < num && num < 48) || num === 49 || (99 < num && num < 108)) return "background-color"
+  if ((29 < num && num < 38) || num === 39 || (89 < num && num < 98))
+    return "foreground-color"
+  if ((39 < num && num < 48) || num === 49 || (99 < num && num < 108))
+    return "background-color"
   return null
 }
 
@@ -207,7 +232,11 @@ function closeTag(stack: string[], style: string): string | undefined {
 
 type TokenCallback = (token: string, data: any) => void
 
-function tokenize(text: string, options: Required<FilterOptions>, callback: TokenCallback): number[] {
+function tokenize(
+  text: string,
+  options: Required<FilterOptions>,
+  callback: TokenCallback
+): number[] {
   let ansiMatch = false
   const ansiHandler = 3
 
@@ -261,7 +290,10 @@ function tokenize(text: string, options: Required<FilterOptions>, callback: Toke
     { pattern: /^(([^\x1b\x08\r\n])+)/, sub: realText }
   ]
 
-  function process(handler: { pattern: RegExp; sub: (...args: any[]) => string }, i: number) {
+  function process(
+    handler: { pattern: RegExp; sub: (...args: any[]) => string },
+    i: number
+  ) {
     if (i > ansiHandler && ansiMatch) return
     ansiMatch = false
     text = text.replace(handler.pattern, handler.sub)
@@ -287,7 +319,11 @@ function tokenize(text: string, options: Required<FilterOptions>, callback: Toke
   return results
 }
 
-function updateStickyStack(stickyStack: TokenElement[], token: string, data: any): TokenElement[] {
+function updateStickyStack(
+  stickyStack: TokenElement[],
+  token: string,
+  data: any
+): TokenElement[] {
   if (token !== "text") {
     stickyStack = stickyStack.filter(notCategory(categoryForCode(data)))
     stickyStack.push({ token, data, category: categoryForCode(data) })
@@ -301,9 +337,14 @@ export class Filter {
   private stickyStack: TokenElement[]
 
   constructor(options: FilterOptions = {}) {
-    const mergedColors = options.colors ? Object.assign({}, defaults.colors, options.colors) : defaults.colors
+    const mergedColors =
+      options.colors ?
+        Object.assign({}, defaults.colors, options.colors)
+      : defaults.colors
 
-    this.options = Object.assign({}, defaults, options, { colors: mergedColors })
+    this.options = Object.assign({}, defaults, options, {
+      colors: mergedColors
+    })
     this.stack = []
     this.stickyStack = []
   }
@@ -321,7 +362,8 @@ export class Filter {
     tokenize(inputs.join(""), options, (token, data) => {
       const output = generateOutput(stack, token, data, options)
       if (output) buf.push(output)
-      if (options.stream) this.stickyStack = updateStickyStack(this.stickyStack, token, data)
+      if (options.stream)
+        this.stickyStack = updateStickyStack(this.stickyStack, token, data)
     })
 
     if (stack.length) buf.push(resetStyles(stack))

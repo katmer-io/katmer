@@ -18,7 +18,10 @@ export async function executeScript<T extends boolean = false>(
     /**
      * If provided will be called with each line of script stdout
      */
-    stream?: (err?: (T extends true ? any : string) | null, data?: (T extends true ? any : string) | null) => void
+    stream?: (
+      err?: (T extends true ? any : string) | null,
+      data?: (T extends true ? any : string) | null
+    ) => void
   } = {}
 ) {
   const command = Bun.spawn(["bash", "-s", "<", "<(cat)"], {

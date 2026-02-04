@@ -10,7 +10,7 @@ export const CliPromptKindSchema = Type.Union(
     Type.Literal("multiselect"),
     Type.Literal("number"),
     Type.Literal("path"),
-    Type.Literal("textarea"),
+    Type.Literal("textarea")
   ],
   { description: "CLI prompt kind." }
 )
@@ -20,7 +20,7 @@ export const CliChoiceSchema = Type.Object(
   {
     value: Type.Optional(Type.String()),
     label: Type.Optional(Type.String()),
-    hint: Type.Optional(Type.String()),
+    hint: Type.Optional(Type.String())
   },
   { additionalProperties: false }
 )
@@ -57,7 +57,7 @@ export const CliPromptConfigBaseSchema = Type.Object(
      * Optional condition to skip this prompt.
      * You can interpret as an expression or callback id.
      */
-    when: Type.Optional(Type.String()),
+    when: Type.Optional(Type.String())
   },
   { additionalProperties: false }
 )
@@ -69,9 +69,11 @@ const CliInputKindSchema = Type.Union(
     Type.Literal("password"),
     Type.Literal("number"),
     Type.Literal("path"),
-    Type.Literal("textarea"),
+    Type.Literal("textarea")
   ],
-  { description: 'Prompt kinds excluding "confirm" | "select" | "multiselect".' }
+  {
+    description: 'Prompt kinds excluding "confirm" | "select" | "multiselect".'
+  }
 )
 
 export const CliInputPromptSchema = Type.Intersect(
@@ -79,10 +81,10 @@ export const CliInputPromptSchema = Type.Intersect(
     CliPromptConfigBaseSchema,
     Type.Object(
       {
-        kind: Type.Optional(CliInputKindSchema),
+        kind: Type.Optional(CliInputKindSchema)
       },
       { additionalProperties: false }
-    ),
+    )
   ],
   { additionalProperties: false }
 )
@@ -94,10 +96,10 @@ export const CliConfirmPromptSchema = Type.Intersect(
     Type.Object(
       {
         kind: Type.Literal("confirm"),
-        default: Type.Optional(Type.Boolean()),
+        default: Type.Optional(Type.Boolean())
       },
       { additionalProperties: false }
-    ),
+    )
   ],
   { additionalProperties: false }
 )
@@ -109,10 +111,10 @@ export const CliSelectPromptSchema = Type.Intersect(
     Type.Object(
       {
         kind: Type.Union([Type.Literal("select"), Type.Literal("multiselect")]),
-        choices: Type.Array(CliChoiceSchema),
+        choices: Type.Array(CliChoiceSchema)
       },
       { additionalProperties: false }
-    ),
+    )
   ],
   { additionalProperties: false }
 )
@@ -130,16 +132,23 @@ export const StepCliConfigSchema = Type.Object(
      * CLI prompts for this step.
      * If omitted, you can auto-generate from the FormKit schema.
      */
-    prompts: Type.Optional(Type.Array(CliPromptConfigSchema)),
+    prompts: Type.Optional(Type.Array(CliPromptConfigSchema))
   },
   { additionalProperties: false }
 )
 export type StepCliConfig = Static<typeof StepCliConfigSchema>
 
-export const CliModeSchema = Type.Union([Type.Literal("cli"), Type.Literal("web")])
+export const CliModeSchema = Type.Union([
+  Type.Literal("cli"),
+  Type.Literal("web")
+])
 export type CliMode = Static<typeof CliModeSchema>
 
-export const LogTargetSchema = Type.Union([Type.Literal("stdout"), Type.Literal("file"), Type.Literal("both")])
+export const LogTargetSchema = Type.Union([
+  Type.Literal("stdout"),
+  Type.Literal("file"),
+  Type.Literal("both")
+])
 export type LogTarget = Static<typeof LogTargetSchema>
 
 export const LogLevelSchema = Type.Union([
@@ -149,7 +158,7 @@ export const LogLevelSchema = Type.Union([
   Type.Literal("info"),
   Type.Literal("debug"),
   Type.Literal("trace"),
-  Type.Literal("silent"),
+  Type.Literal("silent")
 ])
 export type LogLevel = Static<typeof LogLevelSchema>
 
@@ -159,7 +168,7 @@ export const CliRuntimeOptionsSchema = Type.Object(
     port: Type.Number(),
     logging: LogTargetSchema,
     logs_dir: Type.String(),
-    log_level: LogLevelSchema,
+    log_level: LogLevelSchema
   },
   { additionalProperties: false }
 )
@@ -174,7 +183,7 @@ export const FormKitCliMetaSchema = Type.Object(
     default: Type.Optional(Type.Unknown()),
     when: Type.Optional(Type.String()),
     secret: Type.Optional(Type.Boolean()),
-    choices: Type.Optional(Type.Array(CliChoiceSchema)),
+    choices: Type.Optional(Type.Array(CliChoiceSchema))
   },
   { additionalProperties: false }
 )

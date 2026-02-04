@@ -52,3 +52,14 @@ node_modules/
 *.log
 .logs
 _source
+
+# Rust / Cargo
+**/target/
+**/*.rs.bk
+**/*.rlib
+**/*.rmeta
+**/*.dSYM/
+**/*.pdb
+
+# N-API build artifacts (Rust -> Node)
+**/*.node
